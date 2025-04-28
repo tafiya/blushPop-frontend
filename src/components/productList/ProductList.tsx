@@ -1,5 +1,9 @@
 import { Table, TableColumnsType } from "antd";
 import { useStyle } from "../../styles/tableStyle";
+import { useGetAllProductQuery } from "../../redux/features/products/productSlice";
+import { Product } from "../../types/product";
+import Spinner from "../others/Spinner";
+
 interface DataType {
   key: React.Key;
   name: string;
@@ -82,7 +86,7 @@ const columns: TableColumnsType<DataType> = [
 
 const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
   key: i,
-  name: "John Brown",
+  name: "John BrownJohn Brown",
   age: i + 1,
   street: "Lake Park",
   building: "C",
@@ -93,16 +97,32 @@ const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
 }));
 
 const ProductList = () => {
+  const { data, isFetching } = useGetAllProductQuery(undefined, {
+    pollingInterval: 30000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
+  console.log(data);
+  const products: Product[] = data?.products || [];
+  console.log(products);
   const { styles } = useStyle();
   return (
-    <Table<DataType>
+    <>
+   {isFetching && (
+        <div>
+          <Spinner></Spinner>
+        </div>
+      )}
+        <Table<DataType>
       className={styles.customTable}
       columns={columns}
       dataSource={dataSource}
       bordered
       size="middle"
       scroll={{ x: "calc(500px + 50%)", y: 80 * 5 }}
-    />
+    /></>
+
   );
 };
 
