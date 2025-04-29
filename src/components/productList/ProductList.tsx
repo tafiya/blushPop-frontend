@@ -110,7 +110,7 @@ const ProductList = () => {
       width: 100,
       fixed: "right",
       render: (_:  unknown, record: Product) => (
-        <Link to={`/product/${record.id}`}>
+        <Link to={`/product/edit/${record.id}`}>
             <Button
         //  <EditOutlined />
           icon={<EditOutlined />}
@@ -151,7 +151,7 @@ const ProductList = () => {
         <div>
           <Spinner></Spinner>
         </div>
-      ) : (<>
+      ) : (<div style={{ padding: "0 16px" }}>
         <Table<Product>
             columns={columns}
             dataSource={products}
@@ -171,7 +171,7 @@ const ProductList = () => {
             showTotal={(total) => `Total ${total} items`}
             // hideOnSinglePage={isFetchAll} // hide page numbers if fetching all
           />
-        </>
+        </div>
       )}
     </>
   );

@@ -3,25 +3,26 @@ import { Outlet } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 const MainLayout = () => {
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={{ height: "" }}>
       <Header
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "white",
+          backgroundColor: "#c5d9f6",
         }}
       >
         <h2>BlushPop</h2>
       </Header>
-      <Content style={{ padding: "0 48px" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
+      <Content style={{ backgroundColor: "#ecf2fa" }} >
+        <Breadcrumb style={{ margin: "16px 48px" ,}}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>List</Breadcrumb.Item>
         </Breadcrumb>
         <div
           style={{
-            minHeight: 280,
+         
+            // minHeight: 280,
             padding: 24,
           }}
         >
