@@ -1,12 +1,14 @@
 
+import { TProductResponse, TQueryParams } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 // import { TQueryParam, TResponseRedux } from "../../../types/global";
 // import { Product } from "../../../types/product";
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllProduct: builder.query({
-      query: () => "/products"
+    getAllProduct: builder.query<TProductResponse, TQueryParams>({
+      query: ({ limit = 10, skip = 0 } = {}) => `/products?limit=${limit}&skip=${skip}`,
+      providesTags: ["Products"],
     }),
     getProductById: builder.query({
       query: (id) => `/products/${id}`,

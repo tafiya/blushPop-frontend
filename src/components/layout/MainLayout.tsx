@@ -1,5 +1,5 @@
 import { Breadcrumb, Layout } from "antd";
-import ProductList from "../productList/ProductList";
+import { Outlet } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 const MainLayout = () => {
   return (
@@ -25,7 +25,8 @@ const MainLayout = () => {
             padding: 24,
           }}
         >
-         <ProductList></ProductList>
+          <Outlet></Outlet>
+
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>

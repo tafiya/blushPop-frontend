@@ -1,34 +1,11 @@
-import { BaseQueryApi } from "@reduxjs/toolkit/query";
-import React from "react";
+import { Product } from "./product";
 
-export type TError = {
-  data: {
-    message: string;
-    stack: string;
-    success: boolean;
-  };
-  status: number;
+export type TQueryParams = {
+  limit?: number;
+  skip?: number;
 };
 
-export type TMeta = {
-  limit: number;
-  page: number;
+export type TProductResponse = {
+  products: Product[];
   total: number;
-  totalPage: number;
 };
-
-export type TResponse<T> = {
-  products?: T;
-  error?: TError;
-  meta?: TMeta;
-  success: boolean;
-  message: string;
-};
-
-export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
-
-export type TQueryParam = {
-  name: string;
-  value: boolean | React.Key;
-};
-

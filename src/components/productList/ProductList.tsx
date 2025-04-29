@@ -1,128 +1,179 @@
-import { Table, TableColumnsType } from "antd";
-import { useStyle } from "../../styles/tableStyle";
+import { Button, Pagination, Table, TableColumnsType, Tag } from "antd";
 import { useGetAllProductQuery } from "../../redux/features/products/productSlice";
 import { Product } from "../../types/product";
 import Spinner from "../others/Spinner";
-
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  street: string;
-  building: string;
-  number: number;
-  companyAddress: string;
-  companyName: string;
-  gender: string;
-}
-
-const columns: TableColumnsType<DataType> = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    width: 100,
-    fixed: "left",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-      {
-        text: "John",
-        value: "John",
-      },
-    ],
-    onFilter: (value, record) => record.name.indexOf(value as string) === 0,
-  },
-  {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
-    width: 150,
-    sorter: (a, b) => a.age - b.age,
-  },
-
-  {
-    title: "Street",
-    dataIndex: "street",
-    key: "street",
-    width: 150,
-  },
-
-  {
-    title: "Building",
-    dataIndex: "building",
-    key: "building",
-    width: 100,
-  },
-  {
-    title: "Door No.",
-    dataIndex: "number",
-    key: "number",
-    width: 100,
-  },
-
-  {
-    title: "Company Address",
-    dataIndex: "companyAddress",
-    key: "companyAddress",
-    width: 200,
-  },
-  {
-    title: "Company Name",
-    dataIndex: "companyName",
-    key: "companyName",
-  },
-
-  {
-    title: "Gender",
-    dataIndex: "gender",
-    key: "gender",
-    width: 80,
-    fixed: "right",
-  },
-];
-
-const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
-  key: i,
-  name: "John BrownJohn Brown",
-  age: i + 1,
-  street: "Lake Park",
-  building: "C",
-  number: 2035,
-  companyAddress: "Lake Street 42",
-  companyName: "SoftLake Co",
-  gender: "M",
-}));
-
+import { useState } from "react";
+import { Link} from "react-router-dom";
+import { EditOutlined} from "@ant-design/icons";
 const ProductList = () => {
-  const { data, isFetching } = useGetAllProductQuery(undefined, {
-    pollingInterval: 30000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
-    refetchOnReconnect: true,
-  });
-  console.log(data);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const columns: TableColumnsType<Product> = [
+    {
+      title: "Image",
+      dataIndex: "thumbnail",
+      key: "thumbnail",
+      width: 100,
+      render: (thumbnail: string) => (
+        <img
+          src={thumbnail}
+          alt="thumbnail"
+          style={{
+            width: 60,
+            height: 60,
+            objectFit: "cover",
+            borderRadius: "8px",
+          }}
+        />
+      ),
+      fixed: "left",
+    },
+    {
+      title: "Name",
+      dataIndex: "title",
+      key: "title",
+      width: 150,
+      fixed: "left",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      width: 100,
+      sorter: (a, b) => (a.price ?? 0) - (b.price ?? 0),},
+    {
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+      width: 100,
+      sorter: (a, b) => (a.rating?? 0) - (b.rating ?? 0),
+    },
+  
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      width: 150,
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+      width: 150,
+    },
+    {
+      title: "Tags",
+      dataIndex: "tags",
+      key: "tags",
+      width: 130,
+      render: (tags: string[]) => (
+        <>
+          {tags.map((tag, index) => (
+            <Tag color="blue" key={index}>
+              {tag}
+            </Tag>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: "Status",
+      dataIndex: "availabilityStatus",
+      key: "availabilityStatus",
+      width: 100,
+    },
+    {
+      title: "Brand",
+      dataIndex: "brand",
+      key: "brand",
+      width: 100,
+    },
+  
+    {
+      title: "Discount(%)",
+      dataIndex: "discountPercentage",
+      key: "discountPercentage",
+      width: 100,
+    },
+    {
+      title: "Stock",
+      dataIndex: "stock",
+      key: "stock",
+      width: 80,
+    },
+  
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      width: 100,
+      fixed: "right",
+      render: (_:  unknown, record: Product) => (
+        <Link to={`/product/${record.id}`}>
+            <Button
+        //  <EditOutlined />
+          icon={<EditOutlined />}
+         type="primary"
+          
+     
+        >
+          Edit
+        </Button>
+        </Link>
+      
+      ),
+    },
+  ];
+  
+  const isFetchAll = limit === 0;
+  const { data, isLoading } = useGetAllProductQuery(
+    isFetchAll
+    ? { limit: 0, skip: 0 }
+    : { limit, skip: (currentPage - 1) * limit },
+    { pollingInterval: 30000, refetchOnFocus: true, refetchOnMountOrArgChange: true }
+  );
+
   const products: Product[] = data?.products || [];
-  console.log(products);
-  const { styles } = useStyle();
+  const totalItems: number = data?.total || 0;
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+  const handlePageSizeChange = (current: number, pageSize: number) => {
+    setLimit(pageSize);
+    setCurrentPage(current); 
+  };
+
+
   return (
     <>
-   {isFetching && (
+      {isLoading ? (
         <div>
           <Spinner></Spinner>
         </div>
+      ) : (<>
+        <Table<Product>
+            columns={columns}
+            dataSource={products}
+            bordered
+            size="middle"
+            pagination={false} // Disable Ant Design's default pagination
+            scroll={{ x: "calc(500px + 50%)", y: 80 * 5 }}
+          />
+          <Pagination
+            current={currentPage}
+            total={isFetchAll ? products.length: totalItems} // Important fix
+            pageSize={isFetchAll ? products.length : limit} // If fetch all, set pageSize = products.length
+            onChange={handlePageChange}
+            onShowSizeChange={handlePageSizeChange}
+            showSizeChanger
+            pageSizeOptions={["0", "10", "20", "50", "100"]}
+            showTotal={(total) => `Total ${total} items`}
+            // hideOnSinglePage={isFetchAll} // hide page numbers if fetching all
+          />
+        </>
       )}
-        <Table<DataType>
-      className={styles.customTable}
-      columns={columns}
-      dataSource={dataSource}
-      bordered
-      size="middle"
-      scroll={{ x: "calc(500px + 50%)", y: 80 * 5 }}
-    /></>
-
+    </>
   );
 };
 
