@@ -161,6 +161,7 @@ const ProductList = () => {
             scroll={{ x: "calc(500px + 50%)", y: 80 * 5 }}
           />
           <Pagination
+          style={{marginTop:"18px"}}
             current={currentPage}
             total={isFetchAll ? products.length: totalItems} // Important fix
             pageSize={isFetchAll ? products.length : limit} // If fetch all, set pageSize = products.length
