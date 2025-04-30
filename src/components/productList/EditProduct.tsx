@@ -45,7 +45,7 @@ const EditProduct = () => {
     const fetchCategories = async () => {
       const res = await axios.get("https://dummyjson.com/products/categories");
       setCategories(res.data);
-      console.log(categories);
+ 
     };
     fetchCategories();
   }, []);
