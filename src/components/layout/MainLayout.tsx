@@ -12,13 +12,13 @@ const pathSnippets = location.pathname.split("/").filter((i) => i);
 
   const breadcrumbItems = [
     <Breadcrumb.Item key="home">
-      <Link to="/">Home / products</Link>
+      <Link style={{color:"#2962FF"}} to="/">Home / products</Link>
     </Breadcrumb.Item>,
     ...visiblePathSnippets.map((snippet, index) => {
       const url = `/${visiblePathSnippets.slice(0, index + 1).join("/")}`;
       return (
-        <Breadcrumb.Item key={url}>
-          <Link to={url}>{decodeURIComponent(snippet)}</Link>
+        <Breadcrumb.Item  key={url}>
+          <Link style={{color:"#2962FF"}} to={url}>{decodeURIComponent(snippet)}</Link>
         </Breadcrumb.Item>
       );
     }),
