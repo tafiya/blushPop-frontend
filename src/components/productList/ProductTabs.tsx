@@ -1,37 +1,6 @@
 import { Divider, List, Rate, Tabs, Typography } from "antd";
+import { ProductTabsProps } from "../../types/product";
 const { Paragraph, Text } = Typography;
-
-interface Review {
-  rating: number;
-  comment: string;
-  date: string;
-  reviewerName: string;
-  reviewerEmail: string;
-}
-
-interface Dimensions {
-  width: number;
-  height: number;
-  depth: number;
-}
-
-interface ProductTabsProps {
-  description?: string;
-  brand?: string;
-  size?: string;
-  sku: string;
-  weight: string;
-  warrantyInformation: string;
-  shippingInformation: string;
-  availabilityStatus: string;
-  returnPolicy: string;
-  minimumOrderQuantity: string;
-  category: string;
-  dimensions: Dimensions;
-  stock: number;
-  rating: number;
-  reviews?: Review[];
-}
 
 const labelStyle = {
   fontWeight: "bold",
@@ -63,7 +32,9 @@ const ProductTabs = ({
       key: "1",
       label: "Description",
       children: (
-        <Paragraph style={{ maxWidth: "100%", fontSize: "1rem", lineHeight: "1.6" }}>
+        <Paragraph
+          style={{ maxWidth: "100%", fontSize: "1rem", lineHeight: "1.6" }}
+        >
           {description ||
             "This is a premium product designed to bring out the best experience for our customers."}
         </Paragraph>
@@ -122,7 +93,8 @@ const ProductTabs = ({
           </li>
           <Divider />
           <li style={listItemStyle}>
-            <span style={labelStyle}>Minimum Order:</span> {minimumOrderQuantity}
+            <span style={labelStyle}>Minimum Order:</span>{" "}
+            {minimumOrderQuantity}
           </li>
         </ul>
       ),
@@ -131,7 +103,14 @@ const ProductTabs = ({
       key: "4",
       label: "Shipping & Returns",
       children: (
-        <Paragraph style={{ maxWidth: "100%", fontSize: "1rem", lineHeight: "1.7", color: "#555" }}>
+        <Paragraph
+          style={{
+            maxWidth: "100%",
+            fontSize: "1rem",
+            lineHeight: "1.7",
+            color: "#555",
+          }}
+        >
           <span style={labelStyle}>Shipping:</span>{" "}
           {shippingInformation
             ? `Our products are carefully packaged and dispatched within the timeframe mentioned. ${shippingInformation}. Please allow for additional time during holidays or promotions.`
@@ -157,9 +136,12 @@ const ProductTabs = ({
             renderItem={(review) => (
               <List.Item>
                 <Rate disabled defaultValue={review.rating} />
-                <Paragraph style={{ margin: "4px 0" }}>"{review.comment}"</Paragraph>
+                <Paragraph style={{ margin: "4px 0" }}>
+                  "{review.comment}"
+                </Paragraph>
                 <Text type="secondary">
-                  By {review.reviewerName} • {new Date(review.date).toLocaleDateString()}
+                  By {review.reviewerName} •{" "}
+                  {new Date(review.date).toLocaleDateString()}
                 </Text>
               </List.Item>
             )}

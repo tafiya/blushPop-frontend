@@ -21,14 +21,10 @@ import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
 } from "../../redux/features/products/productSlice";
-import { Product } from "../../types/product";
+import { Product, TCategory } from "../../types/product";
 
 const { Title } = Typography;
-type TCategory = {
-  slug: string;
-  name: string;
-  url: string;
-};
+
 const EditProduct = () => {
   const { id } = useParams();
   const [form] = Form.useForm();

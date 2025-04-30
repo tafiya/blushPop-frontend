@@ -1,10 +1,10 @@
-import { Button, Pagination, Table, TableColumnsType, Tag } from "antd";
+import { Button, Pagination, Space, Table, TableColumnsType, Tag } from "antd";
 import { useGetAllProductQuery } from "../../redux/features/products/productSlice";
 import { Product } from "../../types/product";
 import Spinner from "../others/Spinner";
 import { useState } from "react";
 import { Link} from "react-router-dom";
-import { EditOutlined} from "@ant-design/icons";
+import { EditOutlined, EyeOutlined} from "@ant-design/icons";
 const ProductList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,13 +40,13 @@ const ProductList = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      width: 100,
+      width: 80,
       sorter: (a, b) => (a.price ?? 0) - (b.price ?? 0),},
     {
       title: "Rating",
       dataIndex: "rating",
       key: "rating",
-      width: 100,
+      width: 80,
       sorter: (a, b) => (a.rating?? 0) - (b.rating ?? 0),
     },
   
@@ -60,7 +60,7 @@ const ProductList = () => {
       title: "Category",
       dataIndex: "category",
       key: "category",
-      width: 150,
+      width: 120,
     },
     {
       title: "Tags",
@@ -107,20 +107,23 @@ const ProductList = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      width: 100,
+      width: 200,
       fixed: "right",
       render: (_:  unknown, record: Product) => (
-        <Link to={`/product/edit/${record.id}`}>
-            <Button
-        //  <EditOutlined />
-          icon={<EditOutlined />}
-         type="primary"
-          
-     
-        >
-          Edit
-        </Button>
+        <Space>
+              <Link to={`/product/${record.id}`}>
+          <Button icon={<EyeOutlined />} type="primary" ghost>
+            Details
+          </Button>
         </Link>
+        <Link to={`/product/edit/${record.id}`}>
+          <Button icon={<EditOutlined />} type="primary">
+            Edit
+          </Button>
+        </Link>
+    
+      </Space>
+        
       
       ),
     },

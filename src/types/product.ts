@@ -5,7 +5,11 @@ export interface Review {
     reviewerName: string;
     reviewerEmail: string;
   }
-  
+  export type TCategory = {
+    slug: string;
+    name: string;
+    url: string;
+  };
   export interface Dimensions {
     width: number;
     height: number;
@@ -18,7 +22,25 @@ export interface Review {
     barcode: string;
     qrCode: string;
   }
+
   
+ export interface ProductTabsProps {
+    description?: string;
+    brand?: string;
+    size?: string;
+    sku: string;
+    weight: string;
+    warrantyInformation: string;
+    shippingInformation: string;
+    availabilityStatus: string;
+    returnPolicy: string;
+    minimumOrderQuantity: string;
+    category: string;
+    dimensions: Dimensions;
+    stock: number;
+    rating: number;
+    reviews?: Review[];
+  }
   export interface Product {
     id?: number;
     title?: string;
