@@ -5,7 +5,7 @@ A responsive product management dashboard built with **React**, **Ant Design**, 
 ---
 ## 🔗 Live Demo
 
-[Click here to view the live site](https://inteelea.vercel.app/)
+[Click here to view the live site](https://product-dashboard-frontend.vercel.app/)
 
 ---
 
